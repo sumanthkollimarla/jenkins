@@ -15,10 +15,10 @@ pipeline {
         stage('stage number 3'){
             steps {
                  sh '''
-                    echo AWS
-                    echo DevOps
-                    echo Bash
-                }    ''' 
+                      echo AWS
+                      echo DevOps
+                      echo Bash
+                }   ''' 
             }   
         }
     }
