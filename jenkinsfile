@@ -17,7 +17,7 @@ pipeline {
                  sh '''
                     echo AWS
                     echo DevOps
-                    echoBash
+                    echo Bash
                 }    ''' 
             }   
         }
