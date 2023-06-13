@@ -1,17 +1,30 @@
-pipeline {
-    agent any
-    environment {
+triggers { pollSCM('*/2 * * * *') }
+environment {
         ENV_URL = "pipeline.google.com"
         ACCESS_KEY =credentials('AW_ACCESS_KEY')
+        SSH_CRED = creadentials('SSH-CRED')
     }
-    stages{
-        stage('stage number 1') {
+    options {
+        buildDiscarder(logRoutator(numTokeepStr: '3'))
+        disableConcurrentBuilds()
+        timeout(time: 1, unit: 'MINUTES')
+    }
+    tools {
+            maven 'maven-3.5.0'
+    }
+    stages {
+        stage ('parallel') {
+            stage('stage number 1') {
             steps {
+                sh 'mvn --version'
                 sh "echo One"
                 sh "env"
             }
             
+        
         }
+    }
+        
         stage('stage number 2'){
             steps {
                  sh "echo One"
@@ -22,7 +35,7 @@ pipeline {
         }
         stage('stage number 3'){
             environment {
-                ENV_URL = "pipeline.google.com"
+                ENV_URL = "stage.google.com"
 
             }
             steps {
