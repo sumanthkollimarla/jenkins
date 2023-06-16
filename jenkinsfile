@@ -1,55 +1,49 @@
-
-pipeline{
-    agent {label 'java-node'}
+pipeline {
+    agent { label 'SHELL' } 
     triggers { pollSCM('*/2 * * * *') }
     environment {
         ENV_URL = "pipeline.google.com"
-        ACCESS_KEY =credentials('AW_ACCESS_KEY')
-        SSH_CRED = creadentials('ssh-cred')
+        ACCESS_KEY = credentials('AWS_ACCESS_KEY')
+        SSH_CRED = credentials('SSH-CRED')
     }
     options {
-        buildDiscarder(logRoutator(numTokeepStr: '3'))
+        buildDiscarder(logRotator(numToKeepStr: '3'))
         disableConcurrentBuilds()
         timeout(time: 1, unit: 'MINUTES')
     }
     tools {
-            maven 'maven-3.5.0'
-       }
+            maven 'maven-3.5.0' 
+        }
     stages {
-        stage ('parallel') {
+        stage('Parallel Stage') {
             parallel {
-            stage('stage number 1') {
-              steps {
-                sh 'mvn --version'
-                sh "echo One"
-                sh "env"
+            stage('First Stage Name') {
+                steps {
+                    sh "hostname"   // I want this job to run this on WS
+                    sh 'mvn --version'
+                    sh "echo One"
+                    sh "env"
+                    sh "sleep 10"
+                }
             }
-            
-        
+            stage('Second Stage Name') {
+                steps {
+                    sh "echo One"
+                    sh "echo ENV_URL is ${ENV_URL}"
+                    sh "echo $ACCESS_KEY"
+                    sh "sleep 20"
+                }
+            }
+            stage('Third Stage Name') {
+                environment {
+                    ENV_URL = "stage.google.com"
+                }
+                steps {
+                    sh "echo ENV_URL is ${ENV_URL}"
+                    sh "sleep 21"
+                    }
+                }
+            }    
         }
     }
-        
-        stage('stage number 2'){
-            steps {
-                 sh "echo One"
-                 sh "echo ENV_URL is ${ENV_URL}"
-                 sh "echo $ACCESS_KEY"
-
-            }
-        }
-        stage('stage number 3'){
-            environment {
-                ENV_URL = "stage.google.com"
-
-            }
-            steps {
-                 sh "echo ENV_URL is $ENV_URL "
-                }   
-            }   
-        }
-    }
-}       
-            
-    
-    
-
+}
