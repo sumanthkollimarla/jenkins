@@ -1,9 +1,7 @@
 
 pipeline{
     agent {label 'java-node'}
-}
-
-triggers { pollSCM('*/2 * * * *') }
+    triggers { pollSCM('*/2 * * * *') }
 environment {
         ENV_URL = "pipeline.google.com"
         ACCESS_KEY =credentials('AW_ACCESS_KEY')
@@ -52,3 +50,5 @@ environment {
         }
     
     }
+}
+
