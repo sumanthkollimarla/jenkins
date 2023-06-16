@@ -2,7 +2,7 @@
 pipeline{
     agent {label 'java-node'}
     triggers { pollSCM('*/2 * * * *') }
-environment {
+    environment {
         ENV_URL = "pipeline.google.com"
         ACCESS_KEY =credentials('AW_ACCESS_KEY')
         SSH_CRED = creadentials('ssh-cred')
@@ -14,9 +14,10 @@ environment {
     }
     tools {
             maven 'maven-3.5.0'
-    }
+       }
     stages {
         stage ('parallel') {
+            parallel {
             stage('stage number 1') {
               steps {
                 sh 'mvn --version'
@@ -44,10 +45,11 @@ environment {
             steps {
                  sh "echo ENV_URL is $ENV_URL "
                 }   
-            
             }   
-        
         }
-    
     }
-}
+}       
+            
+    
+    
+
