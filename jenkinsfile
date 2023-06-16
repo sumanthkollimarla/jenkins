@@ -1,8 +1,13 @@
+
+pipeline{
+    agent {label 'java-node'}
+}
+
 triggers { pollSCM('*/2 * * * *') }
 environment {
         ENV_URL = "pipeline.google.com"
         ACCESS_KEY =credentials('AW_ACCESS_KEY')
-        SSH_CRED = creadentials('SSH-CRED')
+        SSH_CRED = creadentials('ssh-cred')
     }
     options {
         buildDiscarder(logRoutator(numTokeepStr: '3'))
