@@ -15,7 +15,7 @@ environment {
     stages {
         stage ('parallel') {
             stage('stage number 1') {
-            steps {
+              steps {
                 sh 'mvn --version'
                 sh "echo One"
                 sh "env"
