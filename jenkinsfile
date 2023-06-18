@@ -12,10 +12,10 @@ pipeline {
         timeout(time: 1, unit: 'MINUTES')
     }
     tools {
-            maven "maven-3.5.0"
+            maven 'maven-3.5.0'
         }
     stages {
-        stage('Parallel Stage') {
+        stage('Parallel') {
             parallel {
             stage('First Stage Name') {
                 steps {
